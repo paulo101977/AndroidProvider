@@ -2,14 +2,17 @@ package br.com.xpg.narutosenjuu.contentprovider;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
-public class Provider extends ContentProvider {
+public class UserProvider extends ContentProvider {
 	
-	public Provider()
+	private Context context;
+	
+	public UserProvider(Context context)
 	{
-		
+		this.context = context;
 	}
 
 	@Override
