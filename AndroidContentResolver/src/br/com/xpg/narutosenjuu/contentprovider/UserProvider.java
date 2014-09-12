@@ -7,17 +7,25 @@ import android.database.Cursor;
 import android.net.Uri;
 
 public class UserProvider extends ContentProvider {
-	
+
 	private Context context;
-	
-	public UserProvider(Context context)
-	{
-		this.context = context;
+	private DataBase db;
+
+	public UserProvider() {
+		
+		//get instance of context
+		this.context = getContext();
+		
+		//create instance of database
+		db = new DataBase(context, DataBaseContract.DATABASE_NAME,
+				DataBaseContract.DATABASE_VERSION);
 	}
 
 	@Override
-	public int delete(Uri arg0, String arg1, String[] arg2) {
-		// TODO Auto-generated method stub
+	public int delete(Uri table, String whereClause, String[] whereArgs) {
+		int count = 0;
+		
+		//return db.getWritableDatabase().delete(table, whereClause, whereArgs);
 		return 0;
 	}
 

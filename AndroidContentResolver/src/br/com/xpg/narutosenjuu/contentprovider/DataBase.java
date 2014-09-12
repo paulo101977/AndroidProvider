@@ -7,8 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DataBase extends SQLiteOpenHelper {
 
-	private static final String groupBy = null;
-
 	public DataBase(Context context, String name, int version) {
 		super(context, DataBaseContract.DATABASE_NAME, null,
 				DataBaseContract.DATABASE_VERSION);
@@ -25,13 +23,6 @@ public class DataBase extends SQLiteOpenHelper {
 		sqldb.execSQL(DataBaseContract.DROP_DATABASE);
 
 		onCreate(sqldb);
-	}
-
-	public Cursor query(String table, String[] columns, String selection,
-			String[] selectionArgs, String having, String orderBy) {
-		// TODO Auto-generated method stub
-		return getWritableDatabase().query(table, columns, selection,
-				selectionArgs, groupBy, having, orderBy);
 	}
 
 }
