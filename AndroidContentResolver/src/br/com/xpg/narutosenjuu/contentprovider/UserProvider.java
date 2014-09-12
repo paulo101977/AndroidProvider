@@ -3,23 +3,32 @@ package br.com.xpg.narutosenjuu.contentprovider;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 
 public class UserProvider extends ContentProvider {
 
-	private Context context;
 	private DataBase db;
-
-	public UserProvider() {
+	
+	//UriMatcher
+	private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+	static {
+		uriMatcher.addURI(DataBaseContract.AUTHORITY,
+				DataBaseContract.CONTENT_TYPE, DataBaseContract.ALL_DATA);
 		
-		//get instance of context
-		this.context = getContext();
-		
-		//create instance of database
-		db = new DataBase(context, DataBaseContract.DATABASE_NAME,
-				DataBaseContract.DATABASE_VERSION);
+		uriMatcher.addURI(DataBaseContract.AUTHORITY,
+				DataBaseContract.CONTENT_ITEM, DataBaseContract.SINGLE_DATA);
 	}
+	
+	@Override
+	public boolean onCreate() {
+		db = new DataBase(getContext(), DataBaseContract.DATABASE_NAME,
+				DataBaseContract.DATABASE_VERSION);
+		
+		return true;
+	}
+
 
 	@Override
 	public int delete(Uri table, String whereClause, String[] whereArgs) {
@@ -39,12 +48,6 @@ public class UserProvider extends ContentProvider {
 	public Uri insert(Uri arg0, ContentValues arg1) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public boolean onCreate() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override

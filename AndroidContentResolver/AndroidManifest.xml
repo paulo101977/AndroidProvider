@@ -6,6 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="8"
+        android:maxSdkVersion="19"
         android:targetSdkVersion="19" />
 
     <application
@@ -22,6 +23,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <provider android:name="UserProvider"
+            android:authorities="br.com.xpg.narutosenjuu.contentprovider.userprovider"
+            android:exported="true">
+            
+        </provider>
+
     </application>
 
 </manifest>
