@@ -33,7 +33,7 @@ public interface DataBaseContract {
 			+ AUTHORITY + "/" + BASE_PATH);
 	
 	public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE 
-			+ "/" + BASE_PATH;
+			+ "/" + TABLE_NAME;
 	
 	public static final String CONTENT_ITEM = ContentResolver.CURSOR_ITEM_BASE_TYPE 
 			+ "/" + BASE_PATH;

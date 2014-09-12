@@ -5,36 +5,40 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
 public class UserProvider extends ContentProvider {
 
 	private DataBase db;
-	
-	//UriMatcher
-	private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+
+	// UriMatcher
+	private static final UriMatcher uriMatcher = new UriMatcher(
+			UriMatcher.NO_MATCH);
 	static {
 		uriMatcher.addURI(DataBaseContract.AUTHORITY,
-				DataBaseContract.CONTENT_TYPE, DataBaseContract.ALL_DATA);
-		
-		uriMatcher.addURI(DataBaseContract.AUTHORITY,
-				DataBaseContract.CONTENT_ITEM, DataBaseContract.SINGLE_DATA);
+				DataBaseContract.BASE_PATH, DataBaseContract.ALL_DATA);
+
+		uriMatcher
+				.addURI(DataBaseContract.AUTHORITY, DataBaseContract.BASE_PATH
+						+ "/#", DataBaseContract.SINGLE_DATA);
 	}
-	
+
 	@Override
 	public boolean onCreate() {
 		db = new DataBase(getContext(), DataBaseContract.DATABASE_NAME,
 				DataBaseContract.DATABASE_VERSION);
-		
+
 		return true;
 	}
-
 
 	@Override
 	public int delete(Uri table, String whereClause, String[] whereArgs) {
 		int count = 0;
-		
-		//return db.getWritableDatabase().delete(table, whereClause, whereArgs);
+
+		// return db.getWritableDatabase().delete(table, whereClause,
+		// whereArgs);
 		return 0;
 	}
 
@@ -50,23 +54,36 @@ public class UserProvider extends ContentProvider {
 		return null;
 	}
 
-	
-	//need implementation
+	// need implementation
 	@Override
-	public Cursor query( Uri uri, String[] projection, String selection,
-		      String[] selectionArgs, String sortOrder) {
-		
+	public Cursor query(Uri uri, String[] projection, String selection,
+			String[] selectionArgs, String sortOrder) {
+
+		SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+		builder.setTables(DataBaseContract.TABLE_NAME);
+
 		int uriType = uriMatcher.match(uri);
-		
-		switch(uriType){
-			case DataBaseContract.ALL_DATA:
-				break;
-			case DataBaseContract.SINGLE_DATA:
-				break;
-			default:
-				throw new IllegalArgumentException();s
+
+		SQLiteDatabase database = db.getWritableDatabase();
+
+		switch (uriType) {
+		case DataBaseContract.ALL_DATA:
+			break;
+
+		case DataBaseContract.SINGLE_DATA:
+			builder.appendWhere(DataBaseContract.COLUMN_ID +
+					" = " + uri.getLastPathSegment());
+			break;
+			
+		default:
+			throw new IllegalArgumentException();
 		}
-		return null;
+
+		Cursor cursor = builder.query(database, projection, selection,
+				selectionArgs, null, null, sortOrder);
+		//notify the changes
+		cursor.setNotificationUri(getContext().getContentResolver(), uri);
+		return cursor;
 	}
 
 	@Override
