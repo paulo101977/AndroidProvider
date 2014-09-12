@@ -50,10 +50,22 @@ public class UserProvider extends ContentProvider {
 		return null;
 	}
 
+	
+	//need implementation
 	@Override
-	public Cursor query(Uri arg0, String[] arg1, String arg2, String[] arg3,
-			String arg4) {
-		// TODO Auto-generated method stub
+	public Cursor query( Uri uri, String[] projection, String selection,
+		      String[] selectionArgs, String sortOrder) {
+		
+		int uriType = uriMatcher.match(uri);
+		
+		switch(uriType){
+			case DataBaseContract.ALL_DATA:
+				break;
+			case DataBaseContract.SINGLE_DATA:
+				break;
+			default:
+				throw new IllegalArgumentException();s
+		}
 		return null;
 	}
 
