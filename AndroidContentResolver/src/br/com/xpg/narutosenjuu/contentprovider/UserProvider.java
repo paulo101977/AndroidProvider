@@ -24,6 +24,7 @@ public class UserProvider extends ContentProvider {
 				.addURI(DataBaseContract.AUTHORITY, DataBaseContract.BASE_PATH
 						+ "/#", DataBaseContract.SINGLE_DATA);
 	}
+	
 
 	@Override
 	public boolean onCreate() {
